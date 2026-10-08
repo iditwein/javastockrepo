@@ -1,63 +1,43 @@
-# Iditex
+# iditex
 
-A Java web app for a Java course, running on **Google App Engine**.
+A Java web application for Google App Engine, set up as an Eclipse project. The home page links to a math exercise, and the servlet returns the result as HTML.
 
-The project serves a simple home page and a servlet that evaluates a math expression and returns the result as HTML.
+The App Engine application id is `javaiditwein`, version `2`.
 
-## What it does
+## What the app does
 
-- The home page (`index.html`) links to **Exercise 02 - Math**.
-- The `/iditex` path runs `IditexServlet`, which computes `(4 + 3) * 7` and prints the result.
+- `war/index.html` — a welcome page titled "Hello Idit" with a link to the exercise.
+- `/iditex` — `IditexServlet` computes `(4 + 3) * 7` and returns the result (`49`) inside an HTML heading.
 
-## Tech stack
-
-- Java Servlet API 2.5
-- Google App Engine (Java)
-- Eclipse (Google Plugin / GDT)
-- JPA / DataNucleus (configured in the project, not used by the current servlet)
-
-App Engine application ID: `javaiditwein`
-
-## Project structure
+## Layout
 
 ```
-javastockrepo-1/
-├── src/
-│   ├── com/myorg/javacourse/IditexServlet.java   # Exercise servlet
-│   ├── META-INF/persistence.xml                  # JPA config
-│   └── log4j.properties
-├── war/
-│   ├── index.html                                # Home page
-│   └── WEB-INF/
-│       ├── web.xml                               # Servlet mapping
-│       └── appengine-web.xml                     # App Engine config
-├── .project / .classpath                         # Eclipse
-└── README.md
+src/com/myorg/javacourse/IditexServlet.java   servlet
+src/META-INF/persistence.xml                 JPA settings (App Engine template)
+src/META-INF/jdoconfig.xml                   JDO settings (App Engine template)
+war/index.html                               home page
+war/WEB-INF/web.xml                          servlet mapping
+war/WEB-INF/appengine-web.xml                App Engine settings
 ```
+
+The servlet is mapped in `web.xml` to `/iditex`. The JPA and JDO files come from the App Engine project template; the current servlet does not use the Datastore.
+
+## Environment
+
+- Java 1.7
+- Servlet 2.5
+- Google App Engine Java SDK 1.9.17
+- Eclipse with the Google Plugin for Eclipse
+
+Compiled classes are written to `war/WEB-INF/classes` (that directory is not kept in git).
 
 ## Run locally
 
-1. Open the project in Eclipse with Google Plugin for Eclipse.
-2. Make sure the Google App Engine SDK is installed (this project is set up for SDK 1.9.17).
-3. Run as a **Web Application**.
-4. In the browser:
-   - Home: `http://localhost:8888/`
-   - Exercise: `http://localhost:8888/iditex`
-
-## Endpoints
-
-| Path      | Description                                          |
-|-----------|------------------------------------------------------|
-| `/`       | Home page with a link to the exercise                |
-| `/iditex` | `IditexServlet` — computes `(num1 + num3) * num2`    |
+1. Import the project into Eclipse (`File` → `Import` → `Existing Projects into Workspace`).
+2. Make sure the Google Plugin for Eclipse and the App Engine SDK are installed.
+3. Right-click the project → `Run As` → `App Engine`.
+4. Open the home page in a browser, then follow **Exercise 02 - Math** (`/iditex`).
 
 ## Deploy
 
-Deploy from Eclipse to Google App Engine:
-
-- Application: `javaiditwein`
-- Version: `2`
-
-## Author
-
-Idit Weinstein
+Deploy from Eclipse: right-click the project → `Google` → `Deploy to App Engine`. The target is set in `war/WEB-INF/appengine-web.xml` (`javaiditwein`, version `2`).
